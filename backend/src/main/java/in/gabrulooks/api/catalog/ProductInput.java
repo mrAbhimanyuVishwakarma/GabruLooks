@@ -16,7 +16,7 @@ public record ProductInput(
     @NotBlank @Size(max = 800) String description,
     @Positive long pricePaise,
     @NotNull @Size(max = 8) List<@NotBlank @Pattern(regexp = "https://.+") String> imageUrls,
-    @NotNull @Size(max = 12) List<@Valid VariantInput> variants,
+    @NotNull @Size(max = 12) List<@NotNull @Valid VariantInput> variants,
     Product.ListingType listingType,
     Product.ConditionGrade condition,
     @Size(max = 80) String sellerDisplayName,
@@ -32,6 +32,7 @@ public record ProductInput(
   @jakarta.validation.constraints.AssertTrue(message = "Pre-loved listings require a condition and at most one item per size")
   public boolean isListingValid() {
     if (listingType != Product.ListingType.PRELOVED) return true;
-    return condition != null && variants != null && variants.stream().allMatch(variant -> variant.stock() <= 1);
+    return condition != null && variants != null
+      && variants.stream().allMatch(variant -> variant != null && variant.stock() <= 1);
   }
 }
