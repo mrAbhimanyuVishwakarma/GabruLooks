@@ -87,7 +87,9 @@ public class ProductRepository {
     Product.ListingType listingType = input.listingType() == null
       ? Product.ListingType.DROPSHIP : input.listingType();
     Product.ReviewStatus reviewStatus = input.published()
-      ? Product.ReviewStatus.APPROVED : Product.ReviewStatus.DRAFT;
+      ? Product.ReviewStatus.APPROVED
+      : "PENDING".equals(existing.getString("reviewStatus"))
+        ? Product.ReviewStatus.PENDING : Product.ReviewStatus.DRAFT;
     Product product = new Product(
         id, input.slug(), input.title().trim(), input.description().trim(), input.category().trim(),
       input.pricePaise(), input.imageUrls(), toVariants(input.variants()), listingType,

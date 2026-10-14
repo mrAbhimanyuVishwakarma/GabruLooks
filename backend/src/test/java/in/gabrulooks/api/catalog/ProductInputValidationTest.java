@@ -31,4 +31,25 @@ class ProductInputValidationTest {
 
     assertThat(validator.validate(input)).isEmpty();
   }
+
+  @Test
+  void rejectsMultipleUnitsForPrelovedListings() {
+    ProductInput input = new ProductInput(
+        "Pre-loved jacket", "pre-loved-jacket", "Jackets", "Verified item condition.", 450000,
+        List.of("https://images.example/jacket.jpg"),
+        List.of(new ProductInput.VariantInput("M", 2)), Product.ListingType.PRELOVED,
+        Product.ConditionGrade.GOOD, "Seller", "Delhi", "seller@example.com", "+919876543210", false);
+
+    assertThat(validator.validate(input)).isNotEmpty();
+  }
+
+  @Test
+  void sellerListingsRequireAtLeastThreeHttpsPhotos() {
+    SellerListingInput input = new SellerListingInput(
+        "Seller", "seller@example.com", "+919876543210", "Delhi", "Leather bag", "Bags",
+        "Pre-loved bag with visible wear.", 420000, Product.ConditionGrade.GOOD, "Medium",
+        List.of("https://images.example/front.jpg", "https://images.example/back.jpg"));
+
+    assertThat(validator.validate(input)).isNotEmpty();
+  }
 }

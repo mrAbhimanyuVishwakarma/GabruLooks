@@ -26,6 +26,16 @@ The admin API remains disabled until `ADMIN_USERNAME` and a Spring Security-comp
 - Rotate the Atlas credential that was shared in chat before using the database. Store the replacement only in Render's secret environment variables.
 - Add verified catalog data and image URLs through `/admin` after the API is deployed.
 
-## Current scope
+## Marketplace workflow
 
-This release provides public product browsing and protected product create, edit, publish, inventory-by-size, and delete operations. The local bag is not an order. Checkout is intentionally disabled: customer accounts, order persistence, Razorpay payment creation/webhooks, Shiprocket fulfillment, email/SMS notifications, and customer-facing policies still need implementation and provider/business configuration before real sales. Do not advertise the old demo's generated reviews, delivery estimates, discounts, or policy claims as real.
+- Public catalog entries are either `DROPSHIP` or `PRELOVED`; buyers can filter between them.
+- Sellers can submit pre-loved shoes, jackets, bags, clothing, and accessories with condition, size, price, description, and 3-8 HTTPS photo URLs. Contact details are visible only in the protected admin response.
+- Seller submissions always begin as unpublished `PENDING` listings with one unit of stock. Admins can approve or reject them; approved listings become public.
+- Dropship products are added by admins with supplier stock quantities. Supplier identity, supplier feeds, fulfillment, and dispatch estimates are not integrated yet.
+- Product administration includes create, edit, publish/draft, stock-by-size, review, and delete operations.
+
+## Launch gates
+
+The bag is local-only and is not an order. Shopper/seller accounts, order persistence, checkout, Razorpay payment creation/webhooks, Shiprocket labels and tracking, seller settlement, email/SMS, spam/rate protection for public seller submissions, and approved returns/disputes terms are not implemented. Do not accept payments or promise delivery, payouts, returns, or authentication until these workflows are built and configured. Expensive-item authenticity is not certified. Do not advertise the old demo's generated reviews, delivery estimates, discounts, or policy claims as real.
+
+The Vercel and Render manifests prepare service configuration but do not deploy into the supplied dashboards. Before launch, rotate the Atlas credential shared in chat, set new secrets directly in Render, configure the real Vercel and Render origins, verify the Cloudinary setup and approved catalog, and test all provider webhooks in sandbox mode.

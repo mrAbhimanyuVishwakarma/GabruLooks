@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import type { AdminListing, Product, Variant } from './types';
+import { demoProducts } from './demoProducts';
 import {
   ArrowDown,
   ArrowRight,
@@ -15,19 +17,14 @@ import {
   X,
 } from 'lucide-react';
 
-type Variant = { size: string; stock: number };
-type Product = {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  category: string;
-  pricePaise: number;
-  imageUrls: string[];
-  variants: Variant[];
-  published: boolean;
-};
 type CartLine = { productId: string; size: string; quantity: number };
+
+const conditionLabels: Record<NonNullable<Product['condition']>, string> = {
+  NEW_WITH_TAGS: 'New with tags',
+  LIKE_NEW: 'Like new',
+  GOOD: 'Good condition',
+  FAIR: 'Fair condition',
+};
 
 const apiUrl = (path: string) => `${import.meta.env.VITE_API_BASE_URL ?? ''}${path}`;
 const money = (paise: number) => new Intl.NumberFormat('en-IN', {
@@ -56,8 +53,10 @@ function Storefront() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
+  const [demoCatalog, setDemoCatalog] = useState(false);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('All pieces');
+  const [listingType, setListingType] = useState<'ALL' | Product['listingType']>('ALL');
   const [cart, setCart] = useState(readCart);
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -73,8 +72,14 @@ function Storefront() {
       const data: unknown = await response.json();
       if (!Array.isArray(data)) throw new Error('Catalog response was not valid');
       setProducts(data as Product[]);
+      setDemoCatalog(false);
     } catch {
-      setLoadError('The collection could not load. Check your connection and try again.');
+      if (import.meta.env.DEV) {
+        setProducts(demoProducts);
+        setDemoCatalog(true);
+      } else {
+        setLoadError('The collection could not load. Check your connection and try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -91,9 +96,10 @@ function Storefront() {
   const categories = ['All pieces', ...new Set(products.map((product) => product.category).filter(Boolean))];
   const visibleProducts = products.filter((product) => {
     const matchesCategory = category === 'All pieces' || product.category === category;
+    const matchesType = listingType === 'ALL' || product.listingType === listingType;
     const needle = query.trim().toLowerCase();
     const matchesQuery = !needle || `${product.title} ${product.category} ${product.description}`.toLowerCase().includes(needle);
-    return matchesCategory && matchesQuery;
+    return matchesCategory && matchesType && matchesQuery;
   });
   const cartLines = cart.flatMap((line) => {
     const product = products.find((item) => item.id === line.productId);
@@ -108,6 +114,12 @@ function Storefront() {
       setNotice('This piece is currently out of stock.');
       return;
     }
+    const available = product.variants.find((variant) => variant.size === size)?.stock ?? 0;
+    const existing = cart.find((line) => line.productId === product.id && line.size === size);
+    if (existing && existing.quantity >= available) {
+      setNotice(`Only ${available} available in size ${size}.`);
+      return;
+    }
     setCart((current) => {
       const match = current.find((line) => line.productId === product.id && line.size === size);
       return match
@@ -118,6 +130,13 @@ function Storefront() {
   }
 
   function changeQuantity(productId: string, size: string, delta: number) {
+    const product = products.find((item) => item.id === productId);
+    const available = product?.variants.find((variant) => variant.size === size)?.stock ?? 0;
+    const existing = cart.find((line) => line.productId === productId && line.size === size);
+    if (delta > 0 && existing && existing.quantity >= available) {
+      setNotice(`Only ${available} available in size ${size}.`);
+      return;
+    }
     setCart((current) => current.flatMap((line) => {
       if (line.productId !== productId || line.size !== size) return [line];
       const quantity = line.quantity + delta;
@@ -127,7 +146,7 @@ function Storefront() {
 
   return (
     <>
-      <div className="announcement"><span>GABRU LOOKS</span><span>New pieces are added by the team in real time</span><ArrowRight size={14} /></div>
+      <div className="announcement"><span>GABRU LOOKS</span><span>{demoCatalog ? 'Preview catalog · sample items only' : 'New pieces are added by the team in real time'}</span><ArrowRight size={14} /></div>
       <header className="site-header">
         <button className="icon-button mobile-menu" aria-label="Open menu" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X /> : <Menu />}
@@ -135,6 +154,7 @@ function Storefront() {
         <a className="wordmark" href="/" aria-label="Gabru Looks home">GABRU<span>LOOKS</span><small>.IN</small></a>
         <nav className={menuOpen ? 'main-nav open' : 'main-nav'} aria-label="Main navigation">
           <a href="#collection" onClick={() => setMenuOpen(false)}>Shop</a>
+          <a href="#sell" onClick={() => setMenuOpen(false)}>Sell a piece</a>
           <a href="#about" onClick={() => setMenuOpen(false)}>Our point of view</a>
         </nav>
         <div className="header-actions">
@@ -166,19 +186,27 @@ function Storefront() {
             <div><p className="eyebrow">THE STORE</p><h2>Find your next<br className="mobile-break" /> everyday piece.</h2></div>
             <p className="collection-note">Browse the live collection.<br />Availability updates with the store.</p>
           </div>
+          {demoCatalog && <div className="demo-notice" role="status"><CircleAlert size={16} /><span>Sample listings and prices for preview only. These items are not for sale.</span></div>}
           {!loading && !loadError && products.length > 0 && (
-            <div className="collection-toolbar">
-              <div className="category-list" aria-label="Filter by category">
-                {categories.map((item) => <button key={item} className={category === item ? 'category-chip active' : 'category-chip'} onClick={() => setCategory(item)}>{item}</button>)}
+            <>
+              <div className="listing-tabs" aria-label="Filter by listing type">
+                <button className={listingType === 'ALL' ? 'listing-tab active' : 'listing-tab'} onClick={() => setListingType('ALL')}>Everything</button>
+                <button className={listingType === 'DROPSHIP' ? 'listing-tab active' : 'listing-tab'} onClick={() => setListingType('DROPSHIP')}>Fresh drops</button>
+                <button className={listingType === 'PRELOVED' ? 'listing-tab active' : 'listing-tab'} onClick={() => setListingType('PRELOVED')}>Pre-loved</button>
               </div>
-              <span className="result-count">{visibleProducts.length} {visibleProducts.length === 1 ? 'piece' : 'pieces'}</span>
-            </div>
+              <div className="collection-toolbar">
+                <div className="category-list" aria-label="Filter by category">
+                  {categories.map((item) => <button key={item} className={category === item ? 'category-chip active' : 'category-chip'} onClick={() => setCategory(item)}>{item}</button>)}
+                </div>
+                <span className="result-count">{visibleProducts.length} {visibleProducts.length === 1 ? 'piece' : 'pieces'}</span>
+              </div>
+            </>
           )}
 
           {loading && <div className="loading-grid" aria-label="Loading collection">{Array.from({ length: 4 }, (_, index) => <div className="skeleton" key={index} />)}</div>}
           {loadError && <div className="state-panel"><CircleAlert /><h3>Collection unavailable</h3><p>{loadError}</p><button className="button button-dark" onClick={() => void loadProducts()}>Try again <ArrowRight size={16} /></button></div>}
           {!loading && !loadError && products.length === 0 && <div className="state-panel empty-panel"><span className="empty-mark">G.</span><h3>The next drop is being prepared.</h3><p>There are no published pieces right now. Check back soon.</p></div>}
-          {!loading && !loadError && products.length > 0 && visibleProducts.length === 0 && <div className="state-panel"><Search /><h3>No pieces found</h3><p>Try a different search or collection.</p><button className="text-button" onClick={() => { setQuery(''); setCategory('All pieces'); }}>Clear filters</button></div>}
+          {!loading && !loadError && products.length > 0 && visibleProducts.length === 0 && <div className="state-panel"><Search /><h3>No pieces found</h3><p>Try a different search or collection.</p><button className="text-button" onClick={() => { setQuery(''); setCategory('All pieces'); setListingType('ALL'); }}>Clear filters</button></div>}
 
           {visibleProducts.length > 0 && <div className="product-grid">
             {visibleProducts.map((product) => {
@@ -190,9 +218,10 @@ function Storefront() {
                   {sizes.length === 0 && <span className="stock-label">Sold out</span>}
                 </div>
                 <div className="product-info">
-                  <div className="product-meta"><span>{product.category}</span><span>{sizes.length ? 'In stock' : 'Out of stock'}</span></div>
+                  <div className="product-meta"><span>{product.listingType === 'PRELOVED' ? 'Pre-loved' : 'Fresh drop'}</span><span>{sizes.length ? 'In stock' : 'Out of stock'}</span></div>
                   <h3>{product.title}</h3>
                   <p className="product-description">{product.description}</p>
+                  {product.listingType === 'PRELOVED' && <p className="preloved-meta">{product.condition ? conditionLabels[product.condition] : 'Pre-loved'}{product.sellerCity ? ` · ${product.sellerCity}` : ''}</p>}
                   <div className="product-buy-row">
                     <strong>{money(product.pricePaise)}</strong>
                     {sizes.length > 0 && <label className="size-select"><span className="sr-only">Size for {product.title}</span><select value={selected} onChange={(event) => setSelectedSizes((current) => ({ ...current, [product.id]: event.target.value }))}>{sizes.map((variant) => <option key={variant.size} value={variant.size}>{variant.size}</option>)}</select><ChevronDown size={13} /></label>}
@@ -203,6 +232,8 @@ function Storefront() {
             })}
           </div>}
         </section>
+
+        <SellerSubmission />
 
         <section className="brand-note" id="about">
           <span className="brand-note-mark">G.</span>
@@ -229,22 +260,109 @@ function Storefront() {
   );
 }
 
+function SellerSubmission() {
+  const [form, setForm] = useState({
+    sellerName: '', sellerEmail: '', sellerPhone: '', sellerCity: '', title: '', category: 'Shoes',
+    description: '', price: '', condition: 'GOOD' as NonNullable<Product['condition']>, size: '', imageUrls: '',
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  async function submitListing(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitting(true);
+    setError('');
+    const imageUrls = form.imageUrls.split('\n').map((url) => url.trim()).filter(Boolean);
+    if (imageUrls.length < 3 || imageUrls.length > 8 || imageUrls.some((url) => !url.startsWith('https://'))) {
+      setError('Add 3 to 8 HTTPS photo URLs. Upload clear item photos to Cloudinary first.');
+      setSubmitting(false);
+      return;
+    }
+    try {
+      const response = await fetch(apiUrl('/api/seller/listings'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sellerName: form.sellerName,
+          sellerEmail: form.sellerEmail,
+          sellerPhone: form.sellerPhone,
+          sellerCity: form.sellerCity,
+          title: form.title,
+          category: form.category,
+          description: form.description,
+          pricePaise: Math.round(Number(form.price) * 100),
+          condition: form.condition,
+          size: form.size,
+          imageUrls,
+        }),
+      });
+      if (!response.ok) {
+        const details: unknown = await response.json().catch(() => null);
+        const message = typeof details === 'object' && details !== null && 'error' in details
+          ? String(details.error) : 'Your listing could not be submitted. Check the details and try again.';
+        throw new Error(message);
+      }
+      setSubmitted(true);
+      setForm({ sellerName: '', sellerEmail: '', sellerPhone: '', sellerCity: '', title: '', category: 'Shoes', description: '', price: '', condition: 'GOOD', size: '', imageUrls: '' });
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Your listing could not be submitted. Try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return <section className="sell-section" id="sell">
+    <div className="sell-intro"><p className="eyebrow">GIVE A GOOD PIECE ANOTHER RUN</p><h2>Sell something<br />worth keeping.</h2><p>List pre-loved shoes, jackets, bags, and more. We review each listing before it can appear in the store.</p><div className="sell-steps"><span><b>01</b> Share the details</span><span><b>02</b> We review your listing</span><span><b>03</b> Buyers can discover it</span></div></div>
+    <form className="sell-form" onSubmit={submitListing}>
+      <div className="sell-form-head"><div><p className="eyebrow">PRE-LOVED SUBMISSION</p><h3>List your piece</h3></div><span>Seller contact stays private</span></div>
+      {submitted ? <div className="seller-success" role="status"><Check /><h3>Listing sent for review.</h3><p>It will not appear in the store until an admin reviews it. We will contact you using the details you provided.</p><button type="button" className="text-button" onClick={() => setSubmitted(false)}>Submit another piece</button></div> : <>
+        <div className="seller-fields two-col">
+          <label>Your name<input required maxLength={80} autoComplete="name" value={form.sellerName} onChange={(event) => setForm({ ...form, sellerName: event.target.value })} /></label>
+          <label>City<input required maxLength={80} autoComplete="address-level2" value={form.sellerCity} onChange={(event) => setForm({ ...form, sellerCity: event.target.value })} /></label>
+          <label>Email<input required type="email" maxLength={254} autoComplete="email" value={form.sellerEmail} onChange={(event) => setForm({ ...form, sellerEmail: event.target.value })} /></label>
+          <label>Phone<input required type="tel" pattern="\+?[0-9]{10,15}" maxLength={16} autoComplete="tel" value={form.sellerPhone} onChange={(event) => setForm({ ...form, sellerPhone: event.target.value })} /></label>
+        </div>
+        <div className="seller-fields two-col">
+          <label>What are you selling?<select value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}><option>Shoes</option><option>Jackets</option><option>Bags</option><option>Clothing</option><option>Accessories</option></select></label>
+          <label>Item size<input required maxLength={12} value={form.size} onChange={(event) => setForm({ ...form, size: event.target.value })} placeholder="For example: UK 9 or Large" /></label>
+        </div>
+        <label>Listing title<input required maxLength={120} value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} placeholder="Brand, item, and useful detail" /></label>
+        <div className="seller-fields two-col">
+          <label>Condition<select value={form.condition} onChange={(event) => setForm({ ...form, condition: event.target.value as NonNullable<Product['condition']> })}><option value="NEW_WITH_TAGS">New with tags</option><option value="LIKE_NEW">Like new</option><option value="GOOD">Good condition</option><option value="FAIR">Fair condition</option></select></label>
+          <label>Asking price (INR)<input required type="number" min="1" step="0.01" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} /></label>
+        </div>
+        <label>Describe the item<textarea required maxLength={800} rows={4} value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} placeholder="Mention wear, measurements, repairs, and anything a buyer should know." /></label>
+        <label>Photo URLs<textarea required rows={3} value={form.imageUrls} onChange={(event) => setForm({ ...form, imageUrls: event.target.value })} placeholder="Paste 3 to 8 HTTPS Cloudinary URLs, one per line." /></label>
+        <p className="seller-privacy"><ShieldCheck size={15} /> Submit only items you own or are allowed to sell. Contact details are visible to store admins, not buyers. We do not certify authenticity.</p>
+        {error && <p className="seller-error" role="alert">{error}</p>}
+        <button className="button button-dark" type="submit" disabled={submitting}>{submitting ? 'Sending for review…' : 'Send listing for review'} <ArrowRight size={16} /></button>
+      </>}
+    </form>
+  </section>;
+}
+
 function AdminPage() {
   const [auth, setAuth] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<AdminListing[]>([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState('');
-  const [form, setForm] = useState({ title: '', slug: '', category: '', description: '', price: '', imageUrl: '', variants: [{ size: 'S', stock: 0 }, { size: 'M', stock: 0 }, { size: 'L', stock: 0 }, { size: 'XL', stock: 0 }] as Variant[], published: true });
+  const [form, setForm] = useState({
+    title: '', slug: '', category: '', description: '', price: '', imageUrl: '',
+    variants: [{ size: 'S', stock: 0 }, { size: 'M', stock: 0 }, { size: 'L', stock: 0 }, { size: 'XL', stock: 0 }] as Variant[],
+    listingType: 'DROPSHIP' as Product['listingType'], condition: '' as Product['condition'],
+    sellerDisplayName: '', sellerCity: '', sellerEmail: '', sellerPhone: '', published: true,
+  });
 
   async function refreshProducts(token = auth) {
     setError('');
     const response = await fetch(apiUrl('/api/admin/products'), { headers: { Authorization: `Basic ${token}` } });
     if (!response.ok) throw new Error(response.status === 401 ? 'Sign-in failed. Check your admin credentials.' : `Could not load products (${response.status}).`);
-    setProducts(await response.json() as Product[]);
+    setProducts(await response.json() as AdminListing[]);
   }
 
   async function signIn(event: React.FormEvent<HTMLFormElement>) {
@@ -274,7 +392,12 @@ function AdminPage() {
         }),
       });
       if (!response.ok) throw new Error((await response.text()) || `Save failed (${response.status}).`);
-      setForm({ title: '', slug: '', category: '', description: '', price: '', imageUrl: '', variants: [{ size: 'S', stock: 0 }, { size: 'M', stock: 0 }, { size: 'L', stock: 0 }, { size: 'XL', stock: 0 }], published: true });
+      setForm({
+        title: '', slug: '', category: '', description: '', price: '', imageUrl: '',
+        variants: [{ size: 'S', stock: 0 }, { size: 'M', stock: 0 }, { size: 'L', stock: 0 }, { size: 'XL', stock: 0 }],
+        listingType: 'DROPSHIP', condition: null, sellerDisplayName: '', sellerCity: '',
+        sellerEmail: '', sellerPhone: '', published: true,
+      });
       setEditingId('');
       await refreshProducts();
       setSuccess(editingId ? 'Product changes saved.' : 'Piece added to the collection.');
@@ -286,11 +409,24 @@ function AdminPage() {
     if (!window.confirm(`Delete “${product.title}” from the catalog?`)) return;
     const response = await fetch(apiUrl(`/api/admin/products/${product.id}`), { method: 'DELETE', headers: { Authorization: `Basic ${auth}` } });
     if (!response.ok) { setError(`Could not delete ${product.title}.`); return; }
-    setProducts((current) => current.filter((item) => item.id !== product.id));
+    setProducts((current) => current.filter((item) => item.product.id !== product.id));
     setSuccess('Piece removed from the catalog.');
   }
 
-  function editProduct(product: Product) {
+  async function reviewListing(product: Product, status: 'APPROVED' | 'REJECTED') {
+    setError(''); setSuccess('');
+    const response = await fetch(apiUrl(`/api/admin/products/${product.id}/review`), {
+      method: 'PATCH',
+      headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
+    if (!response.ok) { setError(`Could not ${status.toLowerCase()} this listing.`); return; }
+    await refreshProducts();
+    setSuccess(status === 'APPROVED' ? 'Listing approved and published.' : 'Listing rejected and kept off the storefront.');
+  }
+
+  function editProduct(listing: AdminListing) {
+    const { product } = listing;
     setEditingId(product.id);
     setForm({
       title: product.title,
@@ -300,6 +436,12 @@ function AdminPage() {
       price: (product.pricePaise / 100).toFixed(2),
       imageUrl: product.imageUrls.join('\n'),
       variants: product.variants,
+      listingType: product.listingType,
+      condition: product.condition,
+      sellerDisplayName: product.sellerDisplayName ?? '',
+      sellerCity: product.sellerCity ?? '',
+      sellerEmail: listing.sellerEmail ?? '',
+      sellerPhone: listing.sellerPhone ?? '',
       published: product.published,
     });
     setError('');
@@ -311,17 +453,18 @@ function AdminPage() {
     <header className="admin-header"><a className="wordmark" href="/">GABRU<span>LOOKS</span><small>.IN</small></a><span>STORE ADMIN</span><a href="/">View storefront <ArrowRight size={15} /></a></header>
     <section className="admin-intro"><p className="eyebrow">CATALOG MANAGEMENT</p><h1>Run the collection.</h1><p>Manage real product details, image links, variant sizes, and available stock.</p></section>
     {!auth ? <form className="admin-login" onSubmit={signIn}><h2>Admin sign in</h2><p>Use the admin credentials configured on the API service.</p><label>Email<input type="email" autoComplete="username" required value={email} onChange={(event) => setEmail(event.target.value)} /></label><label>Password<input type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} /></label><button className="button button-dark" type="submit">Sign in <ArrowRight size={16} /></button>{error && <p className="form-error" role="alert">{error}</p>}</form> : <div className="admin-layout">
-      <form className="product-form" onSubmit={saveProduct}><div className="form-heading"><div><p className="eyebrow">{editingId ? 'EDIT PRODUCT' : 'NEW PRODUCT'}</p><h2>{editingId ? 'Update this piece' : 'Add a piece'}</h2></div><div className="form-actions">{editingId && <button className="text-button" type="button" onClick={() => { setEditingId(''); setForm({ title: '', slug: '', category: '', description: '', price: '', imageUrl: '', variants: [{ size: 'S', stock: 0 }, { size: 'M', stock: 0 }, { size: 'L', stock: 0 }, { size: 'XL', stock: 0 }], published: true }); }}>Cancel</button>}<button className="button button-dark" disabled={saving}>{saving ? 'Saving…' : editingId ? 'Save changes' : 'Add product'} <ArrowRight size={16} /></button></div></div>
+      <form className="product-form" onSubmit={saveProduct}><div className="form-heading"><div><p className="eyebrow">{editingId ? 'EDIT LISTING' : 'NEW PRODUCT'}</p><h2>{editingId ? 'Update this piece' : 'Add a piece'}</h2></div><div className="form-actions">{editingId && <button className="text-button" type="button" onClick={() => { setEditingId(''); setForm({ title: '', slug: '', category: '', description: '', price: '', imageUrl: '', variants: [{ size: 'S', stock: 0 }, { size: 'M', stock: 0 }, { size: 'L', stock: 0 }, { size: 'XL', stock: 0 }], listingType: 'DROPSHIP', condition: null, sellerDisplayName: '', sellerCity: '', sellerEmail: '', sellerPhone: '', published: true }); }}>Cancel</button>}<button className="button button-dark" disabled={saving}>{saving ? 'Saving…' : editingId ? 'Save changes' : 'Add product'} <ArrowRight size={16} /></button></div></div>
         <label>Product name<input required maxLength={120} value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value, slug: event.target.value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') })} /></label>
-        <div className="form-pair"><label>Category<input required maxLength={60} value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })} placeholder="Oversized tees" /></label><label>Price (INR)<input required type="number" min="1" step="0.01" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} /></label></div>
+        <div className="form-pair"><label>Listing type<select value={form.listingType} onChange={(event) => setForm({ ...form, listingType: event.target.value as Product['listingType'], condition: event.target.value === 'PRELOVED' ? form.condition ?? 'GOOD' : null })}><option value="DROPSHIP">Fresh drop</option><option value="PRELOVED">Pre-loved</option></select></label><label>Category<input required maxLength={60} value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })} placeholder="Shoes, jackets, bags" /></label></div>
+        <div className="form-pair"><label>Price (INR)<input required type="number" min="1" step="0.01" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} /></label>{form.listingType === 'PRELOVED' && <label>Condition<select required value={form.condition ?? ''} onChange={(event) => setForm({ ...form, condition: event.target.value as Product['condition'] })}><option value="">Choose condition</option><option value="NEW_WITH_TAGS">New with tags</option><option value="LIKE_NEW">Like new</option><option value="GOOD">Good condition</option><option value="FAIR">Fair condition</option></select></label>}</div>
         <label>Description<textarea required maxLength={800} rows={3} value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} /></label>
         <label>Cloudinary image URL(s), one per line<textarea rows={2} value={form.imageUrl} onChange={(event) => setForm({ ...form, imageUrl: event.target.value })} placeholder="https://res.cloudinary.com/..." /></label>
         <fieldset><legend>Available stock by size</legend><div className="stock-fields">{form.variants.map((variant, index) => <label key={variant.size}>{variant.size}<input type="number" min="0" step="1" value={variant.stock} onChange={(event) => setForm({ ...form, variants: form.variants.map((item, current) => current === index ? { ...item, stock: Number(event.target.value) } : item) })} /></label>)}</div></fieldset>
         <label className="publish-toggle"><input type="checkbox" checked={form.published} onChange={(event) => setForm({ ...form, published: event.target.checked })} /> Show this piece in the storefront</label>
         <p className="admin-note"><ShieldCheck size={16} /> Product and stock changes are stored by the API. Use verified descriptions, prices, image links, and stock counts.</p>
       </form>
-      <section className="admin-products"><div className="form-heading"><div><p className="eyebrow">LIVE CATALOG</p><h2>{products.length} {products.length === 1 ? 'piece' : 'pieces'}</h2></div><button className="icon-button" title="Refresh catalog" onClick={() => void refreshProducts().catch((cause: unknown) => setError(cause instanceof Error ? cause.message : 'Refresh failed.'))}><ArrowDown /></button></div>
-        {products.map((product) => <article className="admin-product" key={product.id}><div><strong>{product.title}</strong><span>{money(product.pricePaise)} · {product.category} · {product.variants.reduce((sum, item) => sum + item.stock, 0)} units · {product.published ? 'Published' : 'Draft'}</span></div><div className="admin-row-actions"><button className="icon-button" onClick={() => editProduct(product)} aria-label={`Edit ${product.title}`}><Pencil size={17} /></button><button className="icon-button danger" onClick={() => void removeProduct(product)} aria-label={`Delete ${product.title}`}><Trash2 size={17} /></button></div></article>)}
+      <section className="admin-products"><div className="form-heading"><div><p className="eyebrow">LISTINGS & REVIEW</p><h2>{products.length} {products.length === 1 ? 'listing' : 'listings'}</h2></div><button className="icon-button" title="Refresh catalog" onClick={() => void refreshProducts().catch((cause: unknown) => setError(cause instanceof Error ? cause.message : 'Refresh failed.'))}><ArrowDown /></button></div>
+        {products.map(({ product, sellerEmail, sellerPhone }) => <article className="admin-product" key={product.id}><div className="admin-listing-copy"><strong>{product.title}</strong><span>{product.listingType === 'PRELOVED' ? 'Pre-loved' : 'Fresh drop'} · {money(product.pricePaise)} · {product.category} · {product.variants.reduce((sum, item) => sum + item.stock, 0)} units · {product.reviewStatus}</span>{sellerEmail && <span>Seller: {product.sellerDisplayName} · {sellerEmail} · {sellerPhone}</span>}</div><div className="admin-row-actions">{product.reviewStatus === 'PENDING' && <><button className="review-approve" onClick={() => void reviewListing(product, 'APPROVED')} aria-label={`Approve ${product.title}`}><Check size={15} /> Approve</button><button className="review-reject" onClick={() => void reviewListing(product, 'REJECTED')} aria-label={`Reject ${product.title}`}><X size={15} /> Reject</button></>}<button className="icon-button" onClick={() => editProduct({ product, sellerEmail, sellerPhone })} aria-label={`Edit ${product.title}`}><Pencil size={17} /></button><button className="icon-button danger" onClick={() => void removeProduct(product)} aria-label={`Delete ${product.title}`}><Trash2 size={17} /></button></div></article>)}
         {products.length === 0 && <p className="admin-empty">No catalog pieces yet. Add the first verified product.</p>}
       </section>
       {(error || success) && <div className={error ? 'admin-feedback error' : 'admin-feedback'} role={error ? 'alert' : 'status'}>{error || success}</div>}
