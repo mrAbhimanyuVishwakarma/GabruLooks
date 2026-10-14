@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gabru Looks | Official Online Store | Heavyweight Indian Streetwear</title>
+  <meta name="description" content="Shop oversized t-shirts, parachute pants, acid wash tees, and boxy shirts at GabruLooks.in. Premium 240+ GSM bio-washed heavyweight streetwear with Pan-India COD.">
+  <meta name="keywords" content="oversized t-shirts, streetwear india, parachute pants, baggy cargos, acid wash tees, powerlook replica, gabru looks, mens fashion">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Gabru Looks - Heavyweight Indian Streetwear">
+  <meta property="og:description" content="India's boldest streetwear drops. 240+ GSM oversized t-shirts, parachute pants, and street co-ords.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gabrulooks.in">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=1200&q=80">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <!-- Google Fonts: Syne & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Top Marquee Banner -->
+  <aside class="announcement-bar" aria-label="Announcements">
+    <div class="marquee-track">
+      <span>🔥 DROP 05 IS LIVE</span>
+      <span class="sep">•</span>
+      <span>USE CODE <strong>GABRU200</strong> FOR FLAT ₹200 OFF ON FIRST ORDER</span>
+      <span class="sep">•</span>
+      <span>FREE EXPRESS SHIPPING ON ORDERS ABOVE ₹1499</span>
+      <span class="sep">•</span>
+      <span>PAN-INDIA CASH ON DELIVERY AVAILABLE</span>
+      <span class="sep">•</span>
+      <span>EASY 7-DAY NO QUESTIONS ASKED EXCHANGES</span>
+      <span class="sep">•</span>
+      <span>🔥 DROP 05 IS LIVE</span>
+      <span class="sep">•</span>
+      <span>USE CODE <strong>GABRU200</strong> FOR FLAT ₹200 OFF</span>
+      <span class="sep">•</span>
+      <span>240+ GSM HEAVYWEIGHT BIO-WASH COTTON</span>
+    </div>
+  </aside>
+
+  <!-- Navigation Bar -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      <!-- Mobile Menu Toggle -->
+      <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo" id="brandLogo">
+        <span class="logo-text">GABRU<span class="logo-highlight">LOOKS</span></span>
+        <span class="country-badge">.IN</span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="desktop-nav" id="desktopNav">
+        <a href="#catalog" class="nav-link active" data-category="all">HOT DROPS</a>
+        <a href="#catalog" class="nav-link" data-category="oversized-tees">OVERSIZED TEES</a>
+        <a href="#catalog" class="nav-link" data-category="parachutes-cargos">PARACHUTE & CARGOS</a>
+        <a href="#catalog" class="nav-link" data-category="boxy-shirts">BOXY SHIRTS</a>
+        <a href="#catalog" class="nav-link" data-category="hoodies">HOODIES & CO-ORDS</a>
+        <a href="#lookbook" class="nav-link highlight">LOOKBOOK '26</a>
+      </nav>
+
+      <!-- Header Action Icons -->
+      <div class="header-actions">
+        <button class="action-btn search-trigger" id="searchTriggerBtn" title="Search (Press /)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span class="search-hint">Search <kbd>/</kbd></span>
+        </button>
+
+        <button class="action-btn wishlist-trigger" id="wishlistTriggerBtn" title="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          <span class="badge" id="wishlistCountBadge">0</span>
+        </button>
+
+        <button class="action-btn cart-trigger" id="cartTriggerBtn" title="Shopping Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <span class="badge" id="cartCountBadge">0</span>
+          <span class="cart-total-preview" id="cartTotalPreview">₹0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Search Overlay Bar -->
+    <div class="search-dropdown" id="searchDropdown">
+      <div class="search-inner">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="liveSearchInput" placeholder="Search by oversized tees, acid wash, parachute cargos, corduroy, fit, or color..." autocomplete="off">
+        <button class="clear-search-btn" id="clearSearchBtn" aria-label="Clear Search">&times;</button>
+      </div>
+      <div class="search-quick-tags">
+        <span>Trending:</span>
+        <button class="quick-tag" data-tag="Acid Wash">Acid Wash</button>
+        <button class="quick-tag" data-tag="Parachute">Parachute Cargos</button>
+        <button class="quick-tag" data-tag="240 GSM">240 GSM Heavyweight</button>
+        <button class="quick-tag" data-tag="Resort">Boxy Shirts</button>
+        <button class="quick-tag" data-tag="Hoodie">Onyx Hoodie</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-header">
+      <span class="logo-text">GABRU<span class="logo-highlight">LOOKS</span></span>
+      <button class="close-btn" id="closeMobileDrawerBtn">&times;</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="#catalog" class="mobile-nav-item" data-category="all">⚡ All Hot Drops</a>
+      <a href="#catalog" class="mobile-nav-item" data-category="oversized-tees">👕 Oversized T-Shirts</a>
+      <a href="#catalog" class="mobile-nav-item" data-category="parachutes-cargos">👖 Parachute Pants & Cargos</a>
+      <a href="#catalog" class="mobile-nav-item" data-category="boxy-shirts">👔 Boxy Resort Shirts</a>
+      <a href="#catalog" class="mobile-nav-item" data-category="hoodies">🧥 Heavyweight Hoodies & Co-ords</a>
+      <a href="#lookbook" class="mobile-nav-item">📸 Lookbook 2026</a>
+    </nav>
+    <div class="mobile-drawer-footer">
+      <div class="delivery-perk">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        <span>Free Shipping Above ₹1499</span>
+      </div>
+      <div class="delivery-perk">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>Cash On Delivery Pan India</span>
+      </div>
+    </div>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section" id="heroSection">
+      <div class="hero-media-wrapper">
+        <img class="hero-bg-img" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1920&q=80" alt="Streetwear Fashion Lookbook">
+        <div class="hero-gradient-overlay"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge-tag">NEW SEASON DROP // REBEL AESTHETIC</div>
+        <h1 class="hero-title">HEAVYWEIGHT<br><span class="outline-text">STREETWEAR</span></h1>
+        <p class="hero-subtitle">
+          240+ GSM bio-washed combed cotton, signature dropped shoulder drapes, and tactical parachute cargos. Engineered specifically for the Indian climate and modern street culture.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#catalog" class="btn btn-primary" id="heroShopBtn">EXPLORE THE DROP</a>
+          <button class="btn btn-secondary" id="heroLookbookBtn">VIEW LOOKBOOK '26</button>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric-item">
+            <span class="metric-num">240+</span>
+            <span class="metric-lbl">GSM Heavyweight</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric-item">
+            <span class="metric-num">150K+</span>
+            <span class="metric-lbl">Dudes Styled</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric-item">
+            <span class="metric-num">4.8★</span>
+            <span class="metric-lbl">Customer Rating</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric-item">
+            <span class="metric-num">COD</span>
+            <span class="metric-lbl">Pan-India Delivery</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Category Selector Carousel -->
+    <section class="category-strip-section" aria-label="Collections">
+      <div class="section-container">
+        <div class="section-header">
+          <div>
+            <span class="section-tag">CURATED DROPS</span>
+            <h2 class="section-heading">SHOP BY CATEGORY</h2>
+          </div>
+          <div class="category-scroll-arrows">
+            <button class="scroll-arrow" id="catScrollLeft" aria-label="Scroll Categories Left">&larr;</button>
+            <button class="scroll-arrow" id="catScrollRight" aria-label="Scroll Categories Right">&rarr;</button>
+          </div>
+        </div>
+
+        <div class="category-grid" id="categoryGrid">
+          <div class="category-card active" data-category="all">
+            <div class="cat-img-box">
+              <img src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?auto=format&fit=crop&w=400&q=80" alt="All Drops">
+            </div>
+            <span class="cat-title">All Drops</span>
+            <span class="cat-badge">24 Styles</span>
+          </div>
+
+          <div class="category-card" data-category="oversized-tees">
+            <div class="cat-img-box">
+              <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" alt="Oversized T-Shirts">
+            </div>
+            <span class="cat-title">Oversized Tees</span>
+            <span class="cat-badge">240 GSM</span>
+          </div>
+
+          <div class="category-card" data-category="parachutes-cargos">
+            <div class="cat-img-box">
+              <img src="https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=400&q=80" alt="Parachute Cargos">
+            </div>
+            <span class="cat-title">Parachutes & Cargos</span>
+            <span class="cat-badge">Tactical Fit</span>
+          </div>
+
+          <div class="category-card" data-category="boxy-shirts">
+            <div class="cat-img-box">
+              <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=400&q=80" alt="Boxy Shirts">
+            </div>
+            <span class="cat-title">Boxy Shirts</span>
+            <span class="cat-badge">Cuban & Resort</span>
+          </div>
+
+          <div class="category-card" data-category="acid-wash">
+            <div class="cat-img-box">
+              <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=400&q=80" alt="Acid Wash Tees">
+            </div>
+            <span class="cat-title">Acid Wash Drops</span>
+            <span class="cat-badge">Vintage Dye</span>
+          </div>
+
+          <div class="category-card" data-category="hoodies">
+            <div class="cat-img-box">
+              <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80" alt="Hoodies & Jackets">
+            </div>
+            <span class="cat-title">Hoodies & Co-Ords</span>
+            <span class="cat-badge">400 GSM Terry</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Gabru Looks Highlights -->
+    <section class="perks-strip">
+      <div class="perks-container">
+        <div class="perk-box">
+          <div class="perk-icon">⚡</div>
+          <div class="perk-text">
+            <strong>240+ GSM HEAVYWEIGHT</strong>
+            <span>Zero transparency, rich structured fall</span>
+          </div>
+        </div>
+        <div class="perk-box">
+          <div class="perk-icon">📐</div>
+          <div class="perk-text">
+            <strong>TRUE OVERSIZED CUT</strong>
+            <span>Dropped shoulders & relaxed boxy torso</span>
+          </div>
+        </div>
+        <div class="perk-box">
+          <div class="perk-icon">🌿</div>
+          <div class="perk-text">
+            <strong>100% COMBED BIO-WASH</strong>
+            <span>Ultra soft, pre-shrunk, breathable cotton</span>
+          </div>
+        </div>
+        <div class="perk-box">
+          <div class="perk-icon">📦</div>
+          <div class="perk-text">
+            <strong>PAN-INDIA COD & RETURN</strong>
+            <span>Pay on doorstep with 7-day hassle-free swap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Catalog & Filter Section -->
+    <section class="catalog-section" id="catalog">
+      <div class="section-container">
+        <!-- Control Bar (Filter & Sort) -->
+        <div class="catalog-controls-bar">
+          <div class="controls-left">
+            <h2 class="catalog-title" id="catalogTitle">ALL RECENT DROPS</h2>
+            <span class="catalog-count" id="productCount">(Showing 16 styles)</span>
+          </div>
+
+          <div class="controls-right">
+            <!-- Filter Pills -->
+            <div class="filter-group">
+              <label for="fitFilter" class="filter-label">Fit:</label>
+              <select id="fitFilter" class="styled-select">
+                <option value="all">All Fits</option>
+                <option value="Oversized">Oversized</option>
+                <option value="Tactical Parachute">Tactical Parachute</option>
+                <option value="Boxy Resort">Boxy Resort</option>
+                <option value="Baggy Wide-Leg">Baggy Wide-Leg</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="sizeFilter" class="filter-label">Size:</label>
+              <select id="sizeFilter" class="styled-select">
+                <option value="all">All Sizes</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="sortOrder" class="filter-label">Sort:</label>
+              <select id="sortOrder" class="styled-select">
+                <option value="featured">Featured Drop</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="discount-desc">Biggest Discount</option>
+                <option value="rating-desc">Highest Rated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid" id="productGrid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+
+        <!-- Empty State (When no filters match) -->
+        <div class="empty-state hidden" id="emptyState">
+          <div class="empty-icon">🔍</div>
+          <h3>NO MATCHING DROPS FOUND</h3>
+          <p>Try clearing your active filters or searching for something else.</p>
+          <button class="btn btn-primary" id="resetFiltersBtn">RESET ALL FILTERS</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lookbook Section (Powerlook Signature) -->
+    <section class="lookbook-section" id="lookbook">
+      <div class="section-container">
+        <div class="section-header centered">
+          <span class="section-tag">COMMUNITY & STYLING</span>
+          <h2 class="section-heading">HOW DUDES ARE ROCKING IT</h2>
+          <p class="section-sub">Tag <strong>@GabruLooks.in</strong> on Instagram with <strong>#GabruGang</strong> to be featured on our official drop wall.</p>
+        </div>
+
+        <div class="lookbook-grid">
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=600&q=80" alt="Streetwear Look 1">
+            <div class="lookbook-overlay">
+              <span class="dude-tag">@arjun_delhi</span>
+              <p class="look-title">Acid Wash Charcoal Tee + Olive Parachutes</p>
+              <button class="look-btn" onclick="openProductById(1)">SHOP THIS FIT &rarr;</button>
+            </div>
+          </div>
+
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" alt="Streetwear Look 2">
+            <div class="lookbook-overlay">
+              <span class="dude-tag">@rohit_mumbai</span>
+              <p class="look-title">Sand Waffle Boxy Shirt + Baggy Denim</p>
+              <button class="look-btn" onclick="openProductById(5)">SHOP THIS FIT &rarr;</button>
+            </div>
+          </div>
+
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Streetwear Look 3">
+            <div class="lookbook-overlay">
+              <span class="dude-tag">@kabir_chd</span>
+              <p class="look-title">Tokyo Matrix Graphic + Tactical Cargos</p>
+              <button class="look-btn" onclick="openProductById(4)">SHOP THIS FIT &rarr;</button>
+            </div>
+          </div>
+
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80" alt="Streetwear Look 4">
+            <div class="lookbook-overlay">
+              <span class="dude-tag">@simran_blr</span>
+              <p class="look-title">Onyx French Terry Hoodie + Jet Cargos</p>
+              <button class="look-btn" onclick="openProductById(7)">SHOP THIS FIT &rarr;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Reviews Carousel -->
+    <section class="reviews-section">
+      <div class="section-container">
+        <div class="section-header centered">
+          <span class="section-tag">VERIFIED REVIEWS</span>
+          <h2 class="section-heading">WHAT OUR BOYS ARE SAYING</h2>
+        </div>
+
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"The 240 GSM weight is unreal. It doesn't stick to the body in humid Delhi weather and the neck ribbing hasn't loosened even after 6 washes. Total Powerlook killer."</p>
+            <div class="reviewer-meta">
+              <strong>Amanpreet Singh</strong>
+              <span>New Delhi • Verified Buyer</span>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"Parachute cargos are a 10/10 fit. Bungee toggles at the ankles let you stack them over Jordans or Sambas cleanly. Delivered to Mumbai in 2 days via COD."</p>
+            <div class="reviewer-meta">
+              <strong>Devraj Sawant</strong>
+              <span>Mumbai • Verified Buyer</span>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"Acid wash tee has that authentic vintage thrift look you usually only find in international streetwear brands. Gabru Looks is doing it right for India."</p>
+            <div class="reviewer-meta">
+              <strong>Gurkaran Brar</strong>
+              <span>Chandigarh • Verified Buyer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Product Detail & Quick-View Modal -->
+  <div class="modal-dialog-wrapper" id="pdpModal" aria-hidden="true">
+    <div class="pdp-modal-content">
+      <button class="close-modal-btn" id="closePdpModalBtn" aria-label="Close modal">&times;</button>
+      <div class="pdp-layout">
+        <!-- Media Gallery -->
+        <div class="pdp-gallery">
+          <div class="pdp-main-image-wrap">
+            <img id="pdpMainImg" src="" alt="Product View">
+            <span class="pdp-discount-badge" id="pdpDiscountBadge">-40% OFF</span>
+          </div>
+          <div class="pdp-thumbnails" id="pdpThumbnails">
+            <!-- Thumbnails injected via JS -->
+          </div>
+        </div>
+
+        <!-- Product Specs & Purchase Options -->
+        <div class="pdp-details">
+          <div class="pdp-tags-row">
+            <span class="badge-pill" id="pdpFitBadge">240 GSM OVERSIZED</span>
+            <span class="badge-pill secondary" id="pdpStockBadge">⚡ High Demand Drop</span>
+          </div>
+
+          <h2 class="pdp-title" id="pdpTitle">Product Title</h2>
+          <div class="pdp-rating-row">
+            <span class="pdp-stars">★★★★★</span>
+            <span class="pdp-rating-val" id="pdpRating">4.9</span>
+            <span class="pdp-reviews-count" id="pdpReviews">(142 reviews)</span>
+          </div>
+
+          <div class="pdp-price-row">
+            <span class="pdp-current-price" id="pdpCurrentPrice">₹899</span>
+            <span class="pdp-mrp" id="pdpMrp">₹1,499</span>
+            <span class="pdp-savings" id="pdpSavings">You Save ₹600 (40% OFF)</span>
+          </div>
+          <span class="tax-inclusive-tag">Inclusive of all taxes • Free Shipping on Prepaid</span>
+
+          <hr class="pdp-divider">
+
+          <!-- Size Selection -->
+          <div class="pdp-size-selector">
+            <div class="size-header">
+              <span class="size-label">Select Size:</span>
+              <button class="size-chart-link" id="sizeChartBtn">Size Chart & Measurements</button>
+            </div>
+            <div class="size-options-grid" id="pdpSizeOptions">
+              <button class="size-pill" data-size="S">S</button>
+              <button class="size-pill" data-size="M">M</button>
+              <button class="size-pill active" data-size="L">L</button>
+              <button class="size-pill" data-size="XL">XL</button>
+              <button class="size-pill" data-size="XXL">XXL</button>
+            </div>
+            <div class="size-fit-advisory">
+              💡 <em>Model is 6'0" wearing size <strong>L</strong> for an oversized street drape.</em>
+            </div>
+          </div>
+
+          <!-- Pincode Delivery Estimator (Powerlook staple feature) -->
+          <div class="pdp-pincode-checker">
+            <label for="pincodeInput" class="pincode-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Check Delivery & Cash on Delivery:
+            </label>
+            <div class="pincode-input-row">
+              <input type="text" id="pincodeInput" placeholder="Enter 6-digit Pincode (e.g. 110001, 400001)" maxlength="6">
+              <button class="btn btn-secondary" id="checkPincodeBtn">CHECK</button>
+            </div>
+            <div class="pincode-status-box" id="pincodeStatus"></div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="pdp-actions-row">
+            <button class="btn btn-primary add-to-cart-btn" id="pdpAddToCartBtn">ADD TO BAG</button>
+            <button class="btn btn-instant-buy" id="pdpInstantBuyBtn">BUY IT NOW</button>
+          </div>
+
+          <!-- Fabric & Specs Accordion -->
+          <div class="pdp-accordion">
+            <div class="accordion-item">
+              <div class="accordion-head">
+                <span>Fabric & Fit Details</span>
+              </div>
+              <div class="accordion-body">
+                <ul>
+                  <li><strong>Fabric:</strong> 100% Combed Bio-Washed Cotton (240 GSM Heavyweight).</li>
+                  <li><strong>Fit:</strong> Relaxed Boxy Oversized cut with dropped shoulders.</li>
+                  <li><strong>Print:</strong> High-density vintage screen print that won't crack or peel.</li>
+                  <li><strong>Neck:</strong> 1.25" thick ribbed collar that holds shape permanently.</li>
+                  <li><strong>Care:</strong> Machine wash cold inside out, do not iron directly on print.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div class="modal-dialog-wrapper" id="sizeChartModal" aria-hidden="true">
+    <div class="size-chart-content">
+      <button class="close-modal-btn" id="closeSizeChartBtn">&times;</button>
+      <h3>GABRU OVERSIZED FIT SIZE GUIDE</h3>
+      <p class="sub">All measurements are in inches. Our garments are intentionally tailored with a relaxed, dropped-shoulder fit.</p>
+      
+      <table class="size-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Chest (Round)</th>
+            <th>Length</th>
+            <th>Shoulder</th>
+            <th>Sleeve Length</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>S</strong></td>
+            <td>42"</td>
+            <td>28"</td>
+            <td>21"</td>
+            <td>9.5"</td>
+          </tr>
+          <tr>
+            <td><strong>M</strong></td>
+            <td>44"</td>
+            <td>29"</td>
+            <td>22"</td>
+            <td>10"</td>
+          </tr>
+          <tr class="highlighted-row">
+            <td><strong>L (Popular)</strong></td>
+            <td>46"</td>
+            <td>30"</td>
+            <td>23"</td>
+            <td>10.5"</td>
+          </tr>
+          <tr>
+            <td><strong>XL</strong></td>
+            <td>48"</td>
+            <td>31"</td>
+            <td>24"</td>
+            <td>11"</td>
+          </tr>
+          <tr>
+            <td><strong>XXL</strong></td>
+            <td>50"</td>
+            <td>32"</td>
+            <td>25"</td>
+            <td>11.5"</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="size-recommendation-note">
+        💡 <strong>Fit Advice:</strong> Order your normal size for the intended relaxed streetwear drop. Size down by one if you prefer a standard tailored fit.
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide-Out Cart Drawer -->
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-drawer-header">
+      <div class="cart-header-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <h3>YOUR STREETWEAR BAG</h3>
+        <span class="cart-drawer-count" id="drawerCartCount">(0 items)</span>
+      </div>
+      <button class="close-btn" id="closeCartDrawerBtn">&times;</button>
+    </div>
+
+    <!-- Free Shipping Progress Tracker -->
+    <div class="free-shipping-bar">
+      <div class="progress-label" id="shippingProgressLabel">Add ₹1,499 more to unlock FREE Express Shipping!</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="shippingProgressFill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items List Container -->
+    <div class="cart-items-container" id="cartItemsContainer">
+      <!-- Populated via app.js -->
+    </div>
+
+    <!-- Cart Footer with Coupon Code & Checkout -->
+    <div class="cart-drawer-footer" id="cartDrawerFooter">
+      <!-- Coupon Box -->
+      <div class="coupon-box">
+        <div class="coupon-input-wrap">
+          <input type="text" id="couponCodeInput" placeholder="Enter coupon code (Try: GABRU200)" uppercase>
+          <button class="btn btn-secondary" id="applyCouponBtn">APPLY</button>
+        </div>
+        <div class="coupon-feedback" id="couponFeedback"></div>
+        <div class="available-coupons">
+          <button class="coupon-tag" data-code="GABRU200">GABRU200 (₹200 OFF)</button>
+          <button class="coupon-tag" data-code="STREET30">STREET30 (30% OFF)</button>
+          <button class="coupon-tag" data-code="PREPAID10">PREPAID10 (10% OFF)</button>
+        </div>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="price-breakdown">
+        <div class="price-row">
+          <span>Bag Total (MRP)</span>
+          <span id="summaryTotalMrp">₹0</span>
+        </div>
+        <div class="price-row green">
+          <span>Bag Discount</span>
+          <span id="summaryBagDiscount">-₹0</span>
+        </div>
+        <div class="price-row green" id="summaryCouponRow" style="display:none;">
+          <span>Coupon Savings (<strong id="appliedCouponName"></strong>)</span>
+          <span id="summaryCouponDiscount">-₹0</span>
+        </div>
+        <div class="price-row">
+          <span>Estimated Shipping</span>
+          <span id="summaryShipping">₹99</span>
+        </div>
+        <div class="price-row total-row">
+          <span>Final Payable</span>
+          <span class="final-amount" id="summaryFinalAmount">₹0</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary checkout-btn" id="proceedToCheckoutBtn">
+        <span>PROCEED TO SECURE CHECKOUT</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+
+      <div class="security-guarantee">
+        <span>🔒 256-bit Encrypted Checkout • Pan-India Courier Network</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Checkout Modal Flow -->
+  <div class="modal-dialog-wrapper" id="checkoutModal" aria-hidden="true">
+    <div class="checkout-modal-content">
+      <button class="close-modal-btn" id="closeCheckoutModalBtn">&times;</button>
+      
+      <!-- Checkout Wizard -->
+      <div class="checkout-container" id="checkoutContainer">
+        <div class="checkout-header">
+          <span class="logo-text">GABRU<span class="logo-highlight">LOOKS</span></span>
+          <div class="checkout-steps">
+            <span class="step active" id="stepIndicator1">1. Delivery</span>
+            <span class="step-divider">&gt;</span>
+            <span class="step" id="stepIndicator2">2. Payment</span>
+            <span class="step-divider">&gt;</span>
+            <span class="step" id="stepIndicator3">3. Confirmation</span>
+          </div>
+        </div>
+
+        <!-- Step 1: Address Details -->
+        <div class="checkout-step-content" id="checkoutStep1">
+          <h3>SHIPPING ADDRESS (PAN-INDIA)</h3>
+          <form id="shippingAddressForm" onsubmit="event.preventDefault(); goToCheckoutStep(2);">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="custName">Full Name *</label>
+                <input type="text" id="custName" required placeholder="e.g. Arjun Sharma">
+              </div>
+              <div class="form-group">
+                <label for="custPhone">Mobile Number (For WhatsApp tracking) *</label>
+                <input type="tel" id="custPhone" required placeholder="10-digit mobile number" pattern="[0-9]{10}">
+              </div>
+              <div class="form-group full-width">
+                <label for="custAddress">Flat / House No. / Building / Street *</label>
+                <input type="text" id="custAddress" required placeholder="e.g. B-402, Skyline Residency, Linking Road">
+              </div>
+              <div class="form-group">
+                <label for="custPincode">6-Digit Pincode *</label>
+                <input type="text" id="custPincode" required placeholder="e.g. 110001" maxlength="6">
+              </div>
+              <div class="form-group">
+                <label for="custCity">City *</label>
+                <input type="text" id="custCity" required placeholder="e.g. New Delhi">
+              </div>
+              <div class="form-group">
+                <label for="custState">State *</label>
+                <select id="custState" required>
+                  <option value="">Select State</option>
+                  <option value="Delhi">Delhi NCR</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="West Bengal">West Bengal</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary full-width" style="margin-top: 20px;">CONTINUE TO PAYMENT &rarr;</button>
+          </form>
+        </div>
+
+        <!-- Step 2: Payment Method -->
+        <div class="checkout-step-content hidden" id="checkoutStep2">
+          <h3>CHOOSE PAYMENT METHOD</h3>
+          <div class="payment-methods-grid">
+            <label class="payment-method-card active">
+              <input type="radio" name="paymentOption" value="upi" checked>
+              <div class="method-info">
+                <strong>⚡ Instant UPI / QR (GPay, PhonePe, Paytm, CRED)</strong>
+                <span>Recommended • Extra 5% off + zero waiting time</span>
+              </div>
+            </label>
+
+            <label class="payment-method-card">
+              <input type="radio" name="paymentOption" value="cards">
+              <div class="method-info">
+                <strong>💳 Credit / Debit Cards</strong>
+                <span>Visa, MasterCard, RuPay, Amex accepted</span>
+              </div>
+            </label>
+
+            <label class="payment-method-card">
+              <input type="radio" name="paymentOption" value="cod">
+              <div class="method-info">
+                <strong>📦 Cash On Delivery (COD)</strong>
+                <span>Pay cash or UPI directly to delivery agent on arrival</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="checkout-order-summary-box">
+            <div class="summary-line">
+              <span>Payable Total:</span>
+              <strong id="checkoutFinalAmount">₹0</strong>
+            </div>
+          </div>
+
+          <div class="checkout-nav-btns">
+            <button class="btn btn-secondary" onclick="goToCheckoutStep(1)">&larr; Back to Address</button>
+            <button class="btn btn-primary" id="confirmPlaceOrderBtn">PLACE ORDER NOW</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Confirmation -->
+        <div class="checkout-step-content hidden" id="checkoutStep3">
+          <div class="order-confirmed-box">
+            <div class="success-checkmark">🎉</div>
+            <h2>ORDER PLACED SUCCESSFULLY!</h2>
+            <p class="order-id-display">Order Reference: <strong id="confirmedOrderId">GABRU-92841</strong></p>
+            <p class="order-note">Thank you for joining the <strong>#GabruGang</strong>! A WhatsApp tracking update and invoice has been dispatched to your mobile number.</p>
+            
+            <div class="delivery-estimate-card">
+              <div class="est-icon">🚚</div>
+              <div class="est-details">
+                <strong>Estimated Arrival Date</strong>
+                <span id="confirmedDeliveryDate">Within 3 - 4 Business Days</span>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="continueShoppingAfterOrderBtn">CONTINUE SHOPPING</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col brand-col">
+        <span class="logo-text">GABRU<span class="logo-highlight">LOOKS</span></span>
+        <p class="footer-tagline">Heavyweight streetwear designed and manufactured for the boldest guys across India. No compromises on fabric GSM, cut, or attitude.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram">📸 Instagram</a>
+          <a href="#" aria-label="YouTube">▶️ YouTube</a>
+          <a href="#" aria-label="Twitter">🐦 Twitter/X</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>SHOP COLLECTIONS</h4>
+        <ul>
+          <li><a href="#catalog" onclick="filterByCategory('oversized-tees')">Oversized T-Shirts</a></li>
+          <li><a href="#catalog" onclick="filterByCategory('parachutes-cargos')">Parachute & Cargos</a></li>
+          <li><a href="#catalog" onclick="filterByCategory('boxy-shirts')">Boxy Resort Shirts</a></li>
+          <li><a href="#catalog" onclick="filterByCategory('acid-wash')">Acid Wash Vintage</a></li>
+          <li><a href="#catalog" onclick="filterByCategory('hoodies')">Heavyweight Hoodies</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>CUSTOMER SUPPORT</h4>
+        <ul>
+          <li><a href="#">Track Your Shipment</a></li>
+          <li><a href="#">7-Day Exchange Portal</a></li>
+          <li><a href="#">Shipping & COD Terms</a></li>
+          <li><a href="#">Size Chart Guide</a></li>
+          <li><a href="#">Contact Support: support@gabrulooks.in</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col newsletter-col">
+        <h4>GET ₹150 OFF YOUR NEXT FIT</h4>
+        <p>Subscribe to secret flash drop alerts and VIP discount codes.</p>
+        <form class="newsletter-form" id="newsletterForm" onsubmit="event.preventDefault(); handleNewsletter();">
+          <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary">JOIN</button>
+        </form>
+        <span class="spam-disclaimer">Zero spam. Only fresh drops.</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="bottom-container">
+        <p>© 2026 GabruLooks.in. All Rights Reserved. Heavyweight Streetwear Division.</p>
+        <div class="payment-icons">
+          <span>UPI</span>
+          <span>Google Pay</span>
+          <span>PhonePe</span>
+          <span>Paytm</span>
+          <span>Visa</span>
+          <span>Mastercard</span>
+          <span>COD</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>

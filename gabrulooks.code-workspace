@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../rea"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.debug.settings.onBuildFailureProceed": true
+	}
+}
