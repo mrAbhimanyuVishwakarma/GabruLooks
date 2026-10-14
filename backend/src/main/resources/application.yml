@@ -1,0 +1,19 @@
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  shutdown: graceful
+spring:
+  application:
+    name: gabru-looks-store-api
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+app:
+  mongodb-uri: ${MONGODB_URI:mongodb://localhost:27017}
+  mongodb-database: ${MONGODB_DATABASE:gabrulooks}
+  allowed-origins: ${APP_ALLOWED_ORIGINS:http://localhost:5173}
+  admin:
+    username: ${ADMIN_USERNAME:}
+    password-hash: ${ADMIN_PASSWORD_HASH:}
+management:
+  endpoints:
+    enabled-by-default: false

@@ -1,0 +1,4 @@
+.product-form .publish-toggle{display:flex;flex-direction:row;align-items:center;gap:9px}
+.product-form .publish-toggle input{width:16px;height:16px;accent-color:#47703b}
+.form-actions,.admin-row-actions{display:flex;align-items:center;gap:6px}
+.admin-product div:first-child{display:grid;gap:5px}
